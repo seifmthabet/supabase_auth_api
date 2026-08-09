@@ -62,6 +62,21 @@ userRouter.post("auth/login", async (req: Request, res: Response) => {
   }
 });
 
+userRouter.post("auth/logout", requireAuth, async (req: Request, res: Response) => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      console.error(error);
+      return res.status(400).json({ error: error.message });
+    }
+    return res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+})
+
 userRouter.get("/public/info", async (req: Request, res: Response) => {
   try {
     return res.status(200).json({ message: "This is a public endpoint" });
