@@ -31,7 +31,7 @@ userRouter.post("/auth/signup", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("auth/login", async (req: Request, res: Response) => {
+userRouter.post("/auth/login", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -62,10 +62,10 @@ userRouter.post("auth/login", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("auth/logout", requireAuth, async (req: Request, res: Response) => {
+userRouter.post("/auth/logout", requireAuth, async (req: Request, res: Response) => {
   try {
     const { error } = await supabase.auth.signOut();
-    
+
     if (error) {
       console.error(error);
       return res.status(400).json({ error: error.message });
@@ -75,7 +75,7 @@ userRouter.post("auth/logout", requireAuth, async (req: Request, res: Response) 
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
-})
+});
 
 userRouter.get("/public/info", async (req: Request, res: Response) => {
   try {
@@ -87,7 +87,7 @@ userRouter.get("/public/info", async (req: Request, res: Response) => {
 });
 
 userRouter.get(
-  "protected/profile",
+  "/protected/profile",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
